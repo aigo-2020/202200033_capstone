@@ -1,0 +1,17 @@
+# Unity system folders
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# OS/IDE folders
+/.vs/
+/.vscode/
+/*.sln
+/*.csproj
+/*.unityproj
+.DS_Store
+Thumbs.db
