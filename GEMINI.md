@@ -3,9 +3,9 @@
 This file is the primary authority for Gemini CLI operations within this project.
 
 ## 1. Language & Communication
-*   **Output Language**: All responses MUST be in **Korean**.
-*   **Code Comments**: Use **Korean** for comments in any new or modified code.
-*   **Tone**: Maintain a professional, polite (honorifics), and objective tone.
+*   **Output Language**: Use **Korean** for communication with the user (as per user preference), but keep documentation/logs in English to avoid encoding issues.
+*   **Code Comments**: Use **English** for comments in any new or modified code to ensure system compatibility.
+*   **Tone**: Maintain a professional, polite, and objective tone.
 *   **Educational Support**: Provide high-level mechanism summaries and operational principles for the student developer.
 
 ## 2. Workflow
@@ -17,5 +17,5 @@ This file is the primary authority for Gemini CLI operations within this project
 *   **Architecture Integrity**: Maintain consistency with existing systems (e.g., `PlayerStats` centric stat management, singleton patterns).
 *   **Robustness**: Prioritize stability by using null checks and `TryGetComponent` to prevent `NullReferenceException`.
 *   **File Integrity**: 
-    *   **절대 엄금**: 셸 명령어나 외부 툴을 통한 파일 이동 및 폴더 생성을 금지합니다. 유니티 `.meta` 파일 참조 유실 방지를 위해 모든 파일 구조 변경은 유니티 에디터 내에서 사용자가 직접 수행해야 합니다.
-    *   **보고**: 구조 변경이 필요할 경우 반드시 사용자에게 보고하고 요청합니다.
+    *   **Strictly Prohibited**: Do not move files or create folders via shell commands or external tools. All structure changes must be done manually by the user within the Unity Editor to prevent loss of `.meta` file references.
+    *   **Reporting**: If structural changes are needed, report and request them from the user.

@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27ce637fbbd9adf4fb04d0fe399ba913, type: 3}
+  m_Script: {fileID: 11500000, guid: e216d0b292db670478a097e14933eaea, type: 3}
   m_Name: SpeedUp
-  m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 
-  description: "\uC2A4\uD53C\uB4DC 10 \uC99D\uAC00"
+  m_EditorClassIdentifier: Assembly-CSharp::SpecUpData
+  specName: "\uC774\uB3D9\uC18D\uB3C4"
+  description: 
   icon: {fileID: 0}
-  price: 0
-  statChanges:
-  - statType: 2
-    value: 10
-    modifierType: 0
-  specialEffects: []
+  category: 2
+  targetStat: 2
+  baseValue: 5
+  growthPerLevel: 4

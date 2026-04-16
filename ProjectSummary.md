@@ -8,35 +8,39 @@
 
 ### 1. Stat System (Assets/Script/Stat/) - **Core Logic**
 *   **`StatType.cs`**: `MaxHp`, `Damage`, `Speed`, `FireRate`, `Range`, `Defense`.
-*   **`StatModifier.cs`**: `Value`, `Type`, `Source`. (Value updated to be modifiable for real-time effects).
+*   **`StatModifier.cs`**: `Value`, `Type`, `Source`.
 *   **`Stat.cs`**: `GetValue()` for final calculation. Added `OnValueChanged` event for optimization.
 
 ### 2. Item & Effect System (Refactored)
 *   **`ItemData.cs` (Container)**: Defines identity (Name, Icon, Price). Creates effect instances for each player (`InitializeEffects`).
-*   **`ItemEffect.cs` (Base)**: Abstract blueprint for special mechanics (`OnEquip`, `OnUpdate`, `OnTakeDamage`, `OnAttack`).
-*   **`EffectScript/`**: Individual logic scripts (e.g., `Effect_AtkByMaxHp`, `Effect_GoldOnHit`).
-*   **`PlayerStats.cs`**: Manages own item effect instances using a `Dictionary`. Dispatches signals (TakeDamage, Attack) to these instances.
+*   **`SpecUpData.cs` (New)**: Slots-independent stat upgrades. Categorized into Attack, Defense, and Agility. Scales with category levels.
+*   **`ItemEffect.cs` (Base)**: Abstract blueprint for special mechanics.
+*   **`PlayerStats.cs`**: 
+    *   Manages item effect instances using a `Dictionary`. 
+    *   Manages `attackLevel`, `defenseLevel`, `agilityLevel` for spec-up scaling.
+    *   `ApplySpecUp()` handles permanent stat modifiers and level progression.
 
 ### 3. UI System
-*   **`StageEventManager.cs` (Planned)**: Central hub to trigger different event UIs based on stage numbers (Reward/Shop).
-*   **`RewardUIManager.cs` (Refactored from UIManager)**: Handles free 1-out-of-3 reward selection (Stages 1-3).
+*   **`RewardUIManager.cs` (Refactored)**: 
+    *   Exclusive to **Spec-Up Rewards**. 
+    *   Ensures a fixed selection of [Attack, Defense, Agility] in each event.
+    *   Picks random `SpecUpData` from category-specific pools.
 *   **`ShopUIManager.cs` (Planned)**: Handles gold-based item purchasing (Stages 4-5).
-*   **`RewardCard.cs`**: Individual reward logic. Handles `ItemData` addition.
+*   **`RewardCard.cs`**: Handles both `ItemData` and `SpecUpData` setup and acquisition.
 
 ## 🔄 Interaction Map
 1.  **Stage Clear** -> **Portal Collision** -> **`StageEventManager.CheckAndTriggerEvent()`** -> **Selective UI (Reward or Shop)**.
-2.  **Stat Change** -> `Stat.OnValueChanged` -> `ItemEffect.HandleStatChange` (Optimization).
-2.  **TakeDamage** -> `PlayerStats.TakeDamage` -> `ItemEffect.OnTakeDamage`.
-3.  **AttackSuccess** -> `PlayerStats.OnAttackSuccess` -> `ItemEffect.OnAttack`.
+2.  **Stat Change** -> `Stat.OnValueChanged` -> `ItemEffect.HandleStatChange`.
+3.  **TakeDamage** -> `PlayerStats.TakeDamage` -> `ItemEffect.OnTakeDamage`.
+4.  **AttackSuccess** -> `PlayerStats.OnAttackSuccess` -> `ItemEffect.OnAttack`.
 
 ## 💡 Future Gameplay Flow (Planned)
-1.  **Stages 1-3**: Stat Upgrade Reward (Pick 1 from 3: Offense/Defense/Agility).
+1.  **Stages 1-3**: Stat Upgrade Reward (Pick 1 from 3: Attack/Defense/Agility).
 2.  **Stage 4**: Shop Event (Buy items with gold).
 3.  **Stage 5**: Boss Stage & Reward.
 4.  **Rounds**: 3 Rounds (15 stages) + Final Boss (16th stage) = Clear.
 
-## Future Sessions: Priorities
+## Future Priorities
 1.  **Monster Expansion**: Create more `MonsterData` assets and prefabs.
-2.  **Gold Drop Logic**: Probability-based gold drops (random amount) from monsters.
-3.  **Reward Logic (Refinement)**: Introduce simple stat-up SOs for stages 1-3 (separate from ItemData).
-4.  **Combat Juice**: Hit Flash, Camera Shake, SFX.
+2.  **Gold Drop Logic**: Probability-based gold drops from monsters.
+3.  **Combat Juice**: Hit Flash, Camera Shake, SFX.

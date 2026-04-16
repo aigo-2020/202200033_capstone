@@ -20,6 +20,11 @@ public class PlayerStats : MonoBehaviour
     [Header("Resources")]
     public int money = 0;                   // 인게임 재화
 
+    [Header("SpecUp Levels")]
+    public int attackLevel = 0;
+    public int defenseLevel = 0;
+    public int agilityLevel = 0;
+
     private PlayerInventory inventory;
     
     // 각 아이템 데이터별로 생성된 실제 효과 인스턴스들을 관리 (데이터 독립성 확보)
@@ -68,6 +73,51 @@ public class PlayerStats : MonoBehaviour
         }
 
         currentHp = Mathf.Clamp(currentHp, 0, maxHp.GetValue());
+    }
+
+    /// <summary>
+    /// 슬롯을 차지하지 않는 스펙업 데이터를 적용하고 해당 카테고리 레벨을 올립니다.
+    /// </summary>
+    public void ApplySpecUp(SpecUpData data)
+    {
+        if (data == null) return;
+
+        int currentLvl = GetCategoryLevel(data.category);
+        float finalValue = data.GetCalculatedValue(currentLvl);
+
+        Stat targetStat = GetStatByType(data.targetStat);
+        if (targetStat != null)
+        {
+            // 스펙업은 영구적이므로 별도의 만료 없이 Modifier 추가
+            targetStat.AddModifier(new StatModifier(finalValue, ModifierType.Flat, data));
+        }
+
+        // 해당 카테고리 성장 기록
+        LevelUpCategory(data.category);
+
+        currentHp = Mathf.Clamp(currentHp, 0, maxHp.GetValue());
+        Debug.Log($"{data.category} 스펙업 적용: {data.specName} (+{finalValue}). 현재 {data.category} 레벨: {GetCategoryLevel(data.category)}");
+    }
+
+    public int GetCategoryLevel(SpecUpCategory category)
+    {
+        switch (category)
+        {
+            case SpecUpCategory.Attack: return attackLevel;
+            case SpecUpCategory.Defense: return defenseLevel;
+            case SpecUpCategory.Agility: return agilityLevel;
+            default: return 0;
+        }
+    }
+
+    private void LevelUpCategory(SpecUpCategory category)
+    {
+        switch (category)
+        {
+            case SpecUpCategory.Attack: attackLevel++; break;
+            case SpecUpCategory.Defense: defenseLevel++; break;
+            case SpecUpCategory.Agility: agilityLevel++; break;
+        }
     }
 
     // 아이템 효과 제거 (PlayerInventory에서 호출됨)
