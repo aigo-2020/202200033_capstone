@@ -1,5 +1,9 @@
 # Project Context & Summary (for Gemini CLI)
 
+## 🛠 Development Environment
+*   **Unity Version:** 6000.3.13f1
+*   **Target Platform:** PC / 2D
+
 ## Project Overview
 *   **Genre:** Top-down 2D manual shooting roguelike.
 *   **Core Loop:** Stage Clear -> Event Portal -> Reward Selection (Items/Stats) -> Inventory Update -> Stat Calculation -> Next Stage.

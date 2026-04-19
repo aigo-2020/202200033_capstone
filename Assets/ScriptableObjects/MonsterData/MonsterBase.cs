@@ -65,11 +65,19 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         currentHp -= finalDamage;
         Debug.Log($"{gameObject.name} 피격! (데미지: {finalDamage}) 남은 체력: {currentHp}");
 
+        // 피격 효과/애니메이션을 위한 후크 메서드 호출
+        OnTakeDamage(finalDamage);
+
         if (currentHp <= 0)
         {
             Die();
         }
     }
+
+    /// <summary>
+    /// 피격 시 시각적 효과나 애니메이션 처리를 위해 자식 클래스에서 오버라이드합니다.
+    /// </summary>
+    protected virtual void OnTakeDamage(float damage) { }
 
     /// <summary>
     /// 몬스터 사망 시 호출됩니다. 골드 드랍 및 스테이지 관리자 해제 처리를 합니다.
@@ -87,8 +95,21 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             StageManager.Instance.UnregisterEnemy();
         }
 
+        // 3. 사망 효과/애니메이션을 위한 후크 메서드 호출
+        OnDie();
+
         Destroy(gameObject);
     }
+
+    /// <summary>
+    /// 사망 시 시각적 효과나 애니메이션 처리를 위해 자식 클래스에서 오버라이드합니다.
+    /// </summary>
+    protected virtual void OnDie() { }
+
+    /// <summary>
+    /// 공격 시 시각적 효과나 애니메이션 처리를 위해 자식 클래스에서 오버라이드합니다.
+    /// </summary>
+    protected virtual void OnAttack() { }
 
     /// <summary>
     /// MonsterData에 설정된 확률과 범위에 따라 플레이어에게 골드를 지급합니다.

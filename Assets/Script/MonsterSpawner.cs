@@ -111,10 +111,10 @@ public class MonsterSpawner : MonoBehaviour
         {
             GameObject enemyObj = Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
             
-            // 몬스터 초기화 (Monster1 등의 스크립트가 있다면 데이터 전달)
-            if (enemyObj.TryGetComponent<Monster1>(out var monster1))
+            // 몬스터 초기화 (MonsterBase를 상속받는 모든 스크립트 대응)
+            if (enemyObj.TryGetComponent<MonsterBase>(out var monster))
             {
-                monster1.Initialize(data);
+                monster.Initialize(data);
             }
 
             // StageManager에 몬스터 등록

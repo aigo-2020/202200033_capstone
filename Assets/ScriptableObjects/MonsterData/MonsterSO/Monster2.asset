@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9c52d1718a26a54ab78d729733389d0, type: 3}
-  m_Name: Monster1 1
+  m_Name: Monster2
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  monsterPrefab: {fileID: 1215111612979663959, guid: 7278f67bd6fde224aa7f89619dd4e763, type: 3}
-  difficultyScore: 2
+  monsterPrefab: {fileID: 1215111612979663959, guid: 79f1fd32806fdc14a89a4b84165d4864, type: 3}
+  difficultyScore: 3
   minStage: 1
   maxStage: 4
   maxCountPerStage: 5
@@ -25,5 +25,5 @@ MonoBehaviour:
   knockbackForce: 5
   recoilForce: 3
   dropChance: 1
-  minGold: 5
-  maxGold: 10
+  minGold: 1
+  maxGold: 5
