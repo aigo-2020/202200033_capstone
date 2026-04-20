@@ -20,6 +20,10 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     protected MonsterData data;
     protected bool isInitialized = false;
 
+    // 넉백/반동 상태 관리
+    protected bool isKnockingBack = false;
+    protected float lastAttackTime = 0f;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -65,6 +69,12 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         currentHp -= finalDamage;
         Debug.Log($"{gameObject.name} 피격! (데미지: {finalDamage}) 남은 체력: {currentHp}");
 
+        // [미래 구현 가이드: 피격 넉백 (Damage Knockback)]
+        // 만약 화살이나 스킬에 맞았을 때 몬스터가 뒤로 밀리게 하고 싶다면 여기서 처리합니다.
+        // 예: Vector2 knockbackDir = (transform.position - attackerPosition).normalized;
+        //     ApplyKnockback(knockbackDir * force, duration);
+        // 현재는 시각적/상태적 피드백만 처리하도록 설계되어 있습니다.
+
         // 피격 효과/애니메이션을 위한 후크 메서드 호출
         OnTakeDamage(finalDamage);
 
@@ -72,6 +82,76 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         {
             Die();
         }
+    }
+
+    /// <summary>
+    /// 플레이어와의 물리적 접촉 시 호출됩니다. (모든 몬스터 공통)
+    /// </summary>
+    protected virtual void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!isInitialized || isKnockingBack) return;
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // 공격 속도에 따른 쿨타임 체크
+            if (Time.time >= lastAttackTime + (1f / attackRate))
+            {
+                HandleContactAttack(collision.gameObject);
+                lastAttackTime = Time.time;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 플레이어에게 데미지를 입히고 쌍방향 넉백을 적용하는 공통 로직입니다.
+    /// </summary>
+    protected virtual void HandleContactAttack(GameObject player)
+    {
+        // 1. 플레이어 데미지 입히기
+        if (player.TryGetComponent<PlayerStats>(out var stats))
+        {
+            stats.TakeDamage(damage);
+        }
+
+        // 2. 넉백 방향 계산 (몬스터 -> 플레이어)
+        Vector2 knockbackDir = (player.transform.position - transform.position).normalized;
+
+        // 3. 플레이어 넉백 적용
+        if (player.TryGetComponent<PlayerController>(out var controller))
+        {
+            controller.ApplyKnockback(knockbackDir * knockbackForce, 0.2f);
+        }
+
+        // 4. 몬스터 자신에게 반동(Recoil) 적용
+        ApplyKnockback(-knockbackDir * recoilForce, 0.2f);
+
+        OnAttack();
+    }
+
+    /// <summary>
+    /// 몬스터에게 물리적인 힘을 가하고 잠시 동안 이동 AI를 중단시킵니다.
+    /// </summary>
+    public virtual void ApplyKnockback(Vector2 force, float duration)
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(KnockbackCoroutine(force, duration));
+        }
+    }
+
+    private System.Collections.IEnumerator KnockbackCoroutine(Vector2 force, float duration)
+    {
+        isKnockingBack = true;
+        
+        // 기존 속도 초기화 후 순간적인 힘 가함
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(force, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(duration);
+
+        // 물리 상태 초기화 및 AI 재개
+        rb.linearVelocity = Vector2.zero;
+        isKnockingBack = false;
     }
 
     /// <summary>

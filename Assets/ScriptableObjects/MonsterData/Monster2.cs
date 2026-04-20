@@ -4,6 +4,7 @@ using System.Collections;
 /// <summary>
 /// 원거리 카이팅형 몬스터입니다.
 /// 플레이어와의 거리를 일정하게 유지하며(Elastic Band), 조준 후 투사체를 발사합니다.
+/// 접촉 공격 및 넉백은 부모 클래스(MonsterBase)에서 공통 처리합니다.
 /// </summary>
 public class Monster2 : MonsterBase
 {
@@ -15,7 +16,6 @@ public class Monster2 : MonsterBase
     public float projectileSpeed = 8f;    // 투사체 속도
 
     private bool isAttacking = false;
-    private float lastAttackTime = 0f;
 
     protected override void Start()
     {
@@ -25,7 +25,8 @@ public class Monster2 : MonsterBase
     void Update()
     {
         // 초기화 완료 및 플레이어가 생존해 있을 때만 행동
-        if (!isInitialized || playerTransform == null || isAttacking) return;
+        // 넉백 중이거나 공격 중일 때는 이동하지 않음
+        if (!isInitialized || playerTransform == null || isAttacking || isKnockingBack) return;
 
         HandleElasticMovement();
         CheckAttack();
@@ -75,7 +76,6 @@ public class Monster2 : MonsterBase
         isAttacking = true;
         
         // 1. 조준 단계 (정지 상태에서 대기)
-        // 이 지점에 나중에 애니메이션 'Aim' 트리거를 추가하세요.
         yield return new WaitForSeconds(preAttackDelay);
 
         // 2. 발사 단계

@@ -10,6 +10,11 @@
 
 ## 📂 System Architecture & Scripts
 
+### 📂 Directory Convention (Important)
+*   **`Assets/Script/`**: 일반적인 시스템 매니저, 플레이어 로직, UI 등 핵심 코드 위치.
+*   **`Assets/ScriptableObjects/MonsterData/`**: **주의!** 몬스터 데이터(`MonsterData.cs`)뿐만 아니라, 개별 몬스터의 **MonoBehaviour 로직(`Monster1.cs`, `Monster2.cs` 등)이 함께 위치함.**
+*   **`Assets/Script/Stat/`**: 스탯 시스템 관련 핵심 로직.
+
 ### 1. Stat System (Assets/Script/Stat/) - **Core Logic**
 *   **`StatType.cs`**: `MaxHp`, `Damage`, `Speed`, `FireRate`, `Range`, `Defense`.
 *   **`StatModifier.cs`**: `Value`, `Type`, `Source`.

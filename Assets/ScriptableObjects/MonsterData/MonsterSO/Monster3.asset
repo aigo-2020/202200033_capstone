@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c52d1718a26a54ab78d729733389d0, type: 3}
+  m_Name: Monster3
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  monsterPrefab: {fileID: 1215111612979663959, guid: 7916da4c6e92dce408b67fc84d2941d9, type: 3}
+  difficultyScore: 4
+  minStage: 1
+  maxStage: 4
+  maxCountPerStage: 5
+  baseHp: 50
+  baseDefense: 0
+  baseMoveSpeed: 2
+  baseDamage: 10
+  baseAttackRate: 1
+  knockbackForce: 5
+  recoilForce: 3
+  dropChance: 1
+  minGold: 1
+  maxGold: 5
