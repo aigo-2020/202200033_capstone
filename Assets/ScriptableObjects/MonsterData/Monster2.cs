@@ -24,9 +24,16 @@ public class Monster2 : MonsterBase
 
     void Update()
     {
-        // 초기화 완료 및 플레이어가 생존해 있을 때만 행동
-        // 넉백 중이거나 공격 중일 때는 이동하지 않음
-        if (!isInitialized || playerTransform == null || isAttacking || isKnockingBack) return;
+        // 초기화 완료 및 플레이어 생존 시에만 행동
+        // 넉백 중일 때는 이동하지 않음 (물리 엔진에 의해 넉백 힘이 처리되도록 둠)
+        if (!isInitialized || playerTransform == null || isKnockingBack) return;
+
+        // 공격 중일 때는 멈춤
+        if (isAttacking)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
 
         HandleElasticMovement();
         CheckAttack();
@@ -43,14 +50,18 @@ public class Monster2 : MonsterBase
         if (distance > maxAttackDistance)
         {
             // 너무 멀면 접근
-            rb.MovePosition(rb.position + direction * moveSpeed * Time.deltaTime);
+            rb.linearVelocity = direction * moveSpeed;
         }
         else if (distance < minSafeDistance)
         {
             // 너무 가까우면 후퇴 (접근보다 조금 느리게 도망)
-            rb.MovePosition(rb.position - direction * (moveSpeed * 0.8f) * Time.deltaTime);
+            rb.linearVelocity = -direction * (moveSpeed * 0.8f);
         }
-        // 적정 거리(4~7) 내에 있으면 정지하여 공격 집중
+        else
+        {
+            // 적정 거리 내에 있으면 정지하여 공격 집중
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     /// <summary>

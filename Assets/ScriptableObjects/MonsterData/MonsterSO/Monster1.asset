@@ -19,7 +19,7 @@ MonoBehaviour:
   maxCountPerStage: 5
   baseHp: 50
   baseDefense: 0
-  baseMoveSpeed: 2
+  baseMoveSpeed: 1
   baseDamage: 10
   baseAttackRate: 1
   knockbackForce: 5

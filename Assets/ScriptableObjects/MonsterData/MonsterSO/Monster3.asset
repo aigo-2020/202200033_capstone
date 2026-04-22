@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   monsterPrefab: {fileID: 1215111612979663959, guid: 7916da4c6e92dce408b67fc84d2941d9, type: 3}
   difficultyScore: 4
-  minStage: 1
+  minStage: 3
   maxStage: 4
   maxCountPerStage: 5
   baseHp: 50

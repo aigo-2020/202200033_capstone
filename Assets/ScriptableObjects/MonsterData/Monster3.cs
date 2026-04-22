@@ -66,7 +66,7 @@ public class Monster3 : MonsterBase
         {
             // 평상시 느린 추격 (baseMoveSpeed 사용)
             Vector2 direction = (playerTransform.position - transform.position).normalized;
-            rb.MovePosition(rb.position + direction * moveSpeed * Time.deltaTime);
+            rb.linearVelocity = direction * moveSpeed;
         }
     }
 
@@ -77,21 +77,21 @@ public class Monster3 : MonsterBase
     {
         // 1. 선딜레이 (Ready)
         currentState = State.Ready;
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero; // 정지 상태에서 조준
         
         // 조준: 돌진 시작 시점의 플레이어 방향 고정
         dashDirection = (playerTransform.position - transform.position).normalized;
         
-        // [시각적 경고(Telegraphing) 구현 지점]
-        // 주석: 여기서 몬스터의 색상을 붉게 바꾸거나, 애니메이션 'Ready' 트리거를 호출할 수 있습니다.
         Debug.Log($"{gameObject.name}: 돌진 준비 시작 (선딜레이)");
-        
         yield return new WaitForSeconds(preDashDelay);
 
         // 2. 돌진 (Dashing)
         currentState = State.Dashing;
         dashStartPosition = transform.position;
         Debug.Log($"{gameObject.name}: 돌진 시작!");
+
+        // 돌진 속도 적용
+        rb.linearVelocity = dashDirection * dashSpeed;
 
         while (currentState == State.Dashing)
         {
@@ -102,13 +102,11 @@ public class Monster3 : MonsterBase
                 break;
             }
 
-            // 직선 이동 (방향 전환 불가)
-            rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.deltaTime);
             yield return null;
         }
 
         // 3. 후딜레이 (Recovery)
-        if (currentState == State.Dashing) // 중간에 충돌로 상태가 변하지 않았을 때만 실행
+        if (currentState == State.Dashing) 
         {
             yield return StartCoroutine(FinishDashRoutine());
         }
@@ -120,7 +118,7 @@ public class Monster3 : MonsterBase
     private IEnumerator FinishDashRoutine()
     {
         currentState = State.Recovery;
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero; // 돌진 후 정지
         Debug.Log($"{gameObject.name}: 돌진 종료 (후딜레이)");
 
         yield return new WaitForSeconds(postDashDelay);

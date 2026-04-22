@@ -24,6 +24,10 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     protected bool isKnockingBack = false;
     protected float lastAttackTime = 0f;
 
+    // 애니메이션을 위한 상태 정보 노출
+    public bool IsMoving => isInitialized && !isKnockingBack && rb.linearVelocity.magnitude > 0.1f;
+    public Vector2 MoveDirection => isInitialized ? rb.linearVelocity : Vector2.zero;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

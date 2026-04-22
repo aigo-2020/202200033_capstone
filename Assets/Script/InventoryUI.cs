@@ -1,75 +1,98 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
-/// 화면에 고정된 아이템 슬롯(3개)의 이미지를 관리하는 클래스입니다.
+/// Tab 키를 눌러 열 수 있는 상세 상태창(인벤토리/스탯)을 관리합니다.
+/// 열려 있는 동안 게임을 일시정지하고 플레이어의 상세 스탯을 표시합니다.
 /// </summary>
 public class InventoryUI : MonoBehaviour
 {
-    [Header("Slot UI Elements")]
-    [Tooltip("에디터에서 미리 만들어둔 3개의 Image 컴포넌트를 순서대로 넣어주세요.")]
-    public Image[] slotImages;
+    [Header("UI Structure")]
+    public GameObject uiContent; // 실제 내용이 담긴 패널 오브젝트 (Tab으로 끄고 켤 대상)
+    private bool isOpened = false;
 
-    [Tooltip("슬롯이 비었을 때 보여줄 기본 스프라이트 (없으면 투명하게 처리)")]
-    public Sprite emptySlotSprite;
+    [Header("Player Stats Reference")]
+    public PlayerStats playerStats;
+
+    [Header("Stat Text Elements")]
+    public TextMeshProUGUI damageText;
+    public TextMeshProUGUI fireRateText;
+    public TextMeshProUGUI rangeText;
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI defenseText;
+
+    [Header("Level Text Elements")]
+    public TextMeshProUGUI attackLevelText;
+    public TextMeshProUGUI defenseLevelText;
+    public TextMeshProUGUI agilityLevelText;
 
     void Start()
     {
-        // 인벤토리 변경 이벤트 구독
-        if (PlayerInventory.Instance != null)
+        // 시작 시 창을 닫아둡니다.
+        if (uiContent != null)
         {
-            PlayerInventory.Instance.OnInventoryChanged += UpdateInventoryDisplay;
+            uiContent.SetActive(false);
+            isOpened = false;
         }
 
-        // 초기 상태 업데이트
-        UpdateInventoryDisplay();
+        if (playerStats == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null) playerStats = player.GetComponent<PlayerStats>();
+        }
+    }
+
+    void Update()
+    {
+        // Tab 키 입력 감지
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleStatusWindow();
+        }
+
+        // 창이 열려 있을 때만 실시간으로 스탯 정보를 업데이트합니다.
+        if (isOpened && playerStats != null)
+        {
+            UpdateStatTexts();
+        }
     }
 
     /// <summary>
-    /// 인벤토리 데이터에 맞춰 슬롯 이미지를 갱신합니다.
+    /// 상태창을 열거나 닫으며 게임의 일시정지 상태를 제어합니다.
     /// </summary>
-    public void UpdateInventoryDisplay()
+    public void ToggleStatusWindow()
     {
-        if (PlayerInventory.Instance == null || slotImages == null) return;
+        if (uiContent == null) return;
 
-        var ownedItems = PlayerInventory.Instance.OwnedItems;
+        isOpened = !isOpened;
+        uiContent.SetActive(isOpened);
 
-        for (int i = 0; i < slotImages.Length; i++)
+        // 게임 일시정지 제어
+        Time.timeScale = isOpened ? 0f : 1f;
+
+        if (isOpened)
         {
-            // i번째 슬롯에 아이템이 있다면
-            if (i < ownedItems.Count)
-            {
-                slotImages[i].sprite = ownedItems[i].icon;
-                slotImages[i].enabled = true; // 이미지가 보이게 설정
-                
-                // 아이콘의 색상을 원래대로 (투명도 방지)
-                Color c = slotImages[i].color;
-                c.a = 1f;
-                slotImages[i].color = c;
-            }
-            else
-            {
-                // i번째 슬롯에 아이템이 없다면
-                if (emptySlotSprite != null)
-                {
-                    slotImages[i].sprite = emptySlotSprite;
-                    slotImages[i].enabled = true;
-                }
-                else
-                {
-                    // 빈 슬롯 이미지가 없으면 투명하게 숨김
-                    slotImages[i].enabled = false;
-                }
-            }
+            UpdateStatTexts();
         }
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// 플레이어의 상세 스탯 및 카테고리 레벨 정보를 텍스트에 출력합니다.
+    /// </summary>
+    void UpdateStatTexts()
     {
-        // 메모리 누수 방지를 위한 이벤트 구독 해제
-        if (PlayerInventory.Instance != null)
-        {
-            PlayerInventory.Instance.OnInventoryChanged -= UpdateInventoryDisplay;
-        }
+        if (playerStats == null) return;
+
+        // 상세 스탯 정보 (소수점 자릿수 조절 가능)
+        if (damageText != null) damageText.text = $"Damage: {playerStats.damage.GetValue():F1}";
+        if (fireRateText != null) fireRateText.text = $"Fire Rate: {playerStats.fireRate.GetValue():F2}";
+        if (rangeText != null) rangeText.text = $"Range: {playerStats.range.GetValue():F1}";
+        if (speedText != null) speedText.text = $"Speed: {playerStats.speed.GetValue():F1}";
+        if (defenseText != null) defenseText.text = $"Defense: {playerStats.defense.GetValue():F1}";
+
+        // 카테고리 레벨 정보 (SpecUp)
+        if (attackLevelText != null) attackLevelText.text = $"Attack Lv: {playerStats.attackLevel}";
+        if (defenseLevelText != null) defenseLevelText.text = $"Defense Lv: {playerStats.defenseLevel}";
+        if (agilityLevelText != null) agilityLevelText.text = $"Agility Lv: {playerStats.agilityLevel}";
     }
 }

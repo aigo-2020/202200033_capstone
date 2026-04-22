@@ -15,5 +15,6 @@ MonoBehaviour:
   possibleMonsters:
   - {fileID: 11400000, guid: d99726b251148ba4e82906550a54b91f, type: 2}
   - {fileID: 11400000, guid: dc1a3f9fa3d1f7f48aa6219ad1cf79f6, type: 2}
-  baseBudget: 20
-  budgetIncrement: 5
+  - {fileID: 11400000, guid: 0de6402abd17b6445984c7a0f88a43d8, type: 2}
+  baseBudget: 10
+  budgetIncrement: 7

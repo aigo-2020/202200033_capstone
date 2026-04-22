@@ -3,8 +3,9 @@
 This file is the primary authority for Gemini CLI operations within this project.
 
 ## 1. Language & Communication
-*   **Output Language**: Use **Korean** for communication with the user (as per user preference), but keep documentation/logs in English to avoid encoding issues.
-*   **Code Comments**: Use **English** for comments in any new or modified code to ensure system compatibility.
+*   **Output Language**: Use **Korean** for communication with the user.
+*   **Documentation**: Keep **GEMINI.md** and other project documentation in **English** to ensure consistency and avoid encoding issues.
+*   **Code Comments**: Use **Korean** for comments in code to help the student developer understand the logic more easily.
 *   **Tone**: Maintain a professional, polite, and objective tone.
 *   **Educational Support**: Provide high-level mechanism summaries and operational principles for the student developer.
 

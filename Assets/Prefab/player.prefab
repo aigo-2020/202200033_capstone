@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 3898440232326682324}
   - component: {fileID: 7350287494951975704}
   - component: {fileID: -1171301830451001504}
+  - component: {fileID: -4010197145464133155}
+  - component: {fileID: -7617947330518868995}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -196,6 +198,9 @@ MonoBehaviour:
   speed:
     baseValue: 5
   money: 0
+  attackLevel: 0
+  defenseLevel: 0
+  agilityLevel: 0
 --- !u!114 &3898440232326682324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5623468cb0d512440b27c2dd518ab831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  acceleration: 50
+  deceleration: 60
 --- !u!114 &7350287494951975704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,3 +241,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   maxSlotCount: 3
+--- !u!114 &-4010197145464133155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459026940874954748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8a4a7839d337047bfd75796518cc88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
+--- !u!95 &-7617947330518868995
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459026940874954748}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 72ef706ba6c7bcf4abb1a7593c6a9dfc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
