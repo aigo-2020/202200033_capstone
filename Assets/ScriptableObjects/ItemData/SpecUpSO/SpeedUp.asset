@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   category: 2
   targetStat: 2
-  baseValue: 5
-  growthPerLevel: 4
+  baseValue: 1
+  growthPerLevel: 0.5
