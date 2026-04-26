@@ -44,12 +44,8 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
-        // Tab 키 입력 감지
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            ToggleStatusWindow();
-        }
-
+        // 입력 감지는 이제 GameManager에서 통합 관리합니다.
+        
         // 창이 열려 있을 때만 실시간으로 스탯 정보를 업데이트합니다.
         if (isOpened && playerStats != null)
         {
