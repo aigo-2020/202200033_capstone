@@ -3,15 +3,18 @@
 ## 🛠 Development Environment
 *   **Unity Version:** 6000.3.13f1
 *   **Target Platform:** PC / 2D
+*   **Current Version:** ver 0.0.2
 
 ## Project Overview
 *   **Genre:** Top-down 2D manual shooting roguelike.
-*   **Core Loop:** Stage Clear -> Event Portal -> Reward Selection (Items/Stats) -> Inventory Update -> Stat Calculation -> Next Stage.
+*   **Core Loop:** Stage Clear -> Event UI (Reward/Shop) -> Inventory Update -> Stat Calculation -> Next Stage. (Portal removed for fast tempo)
 
 ## 📂 System Architecture & Scripts
 
 ### 📂 Directory Convention (Important)
 *   **`Assets/Script/`**: Core code location including general system managers, player logic, and UI.
+*   **`Assets/Script/GameManager.cs`**: **(New)** Global state management (Lobby, Playing, GameOver) and scene transitions.
+*   **`Assets/Script/StageManager.cs`**: **(Enhanced)** Manages stage flow, monster spawning, and combat-related UIs (Inventory, Reward, Shop).
 *   **`Assets/ScriptableObjects/MonsterData/`**: **Caution!** Contains not only `MonsterData.cs` but also individual monster **MonoBehaviour logic (`Monster1.cs`, `Monster2.cs`, etc.).**
 *   **`Assets/Script/Stat/`**: Core logic related to the stat system.
 

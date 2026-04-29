@@ -12,6 +12,7 @@ This file is the primary authority for Gemini CLI operations within this project
 ## 2. Workflow
 *   **Summary First**: Summarize proposed changes and obtain approval BEFORE executing any file modifications.
 *   **Project Memory**: Regularly reference and maintain `Assets/ProjectSummary.md` to keep track of system architecture and progress.
+*   **Git Commit Convention**: Always include a version name in the commit message using the format: `ver X.X.X 'description'`. (e.g., `ver 0.0.2 'gameover update'`). Increment the version number for every commit based on the git history.
 
 ## 3. Technical Standards
 *   **Unity Conventions**: Follow standard Unity naming conventions and component-based design.
