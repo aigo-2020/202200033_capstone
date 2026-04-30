@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee94cd79bde067c44a478c907232d5a1, type: 3}
-  m_Name: Effect_AtkByMaxHp
-  m_EditorClassIdentifier: Assembly-CSharp::Effect_AtkByMaxHp
+  m_Script: {fileID: 11500000, guid: 3d19fd4d3e22924469d8e71914dc0b93, type: 3}
+  m_Name: LifeStealEffect
+  m_EditorClassIdentifier: Assembly-CSharp::LifeStealEffect
   effectDescription: 
-  hpToAtkRatio: 0.1

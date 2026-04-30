@@ -23,14 +23,24 @@
 *   **`StatModifier.cs`**: `Value`, `Type`, `Source`.
 *   **`Stat.cs`**: `GetValue()` for final calculation. Added `OnValueChanged` event for optimization.
 
-### 2. Item & Effect System (Refactored)
-*   **`ItemData.cs` (Container)**: Defines identity (Name, Icon, Price). Creates effect instances for each player (`InitializeEffects`).
-*   **`SpecUpData.cs` (New)**: Slots-independent stat upgrades. Categorized into Attack, Defense, and Agility. Scales with category levels.
-*   **`ItemEffect.cs` (Base)**: Abstract blueprint for special mechanics.
-*   **`PlayerStats.cs`**: 
-    *   Manages item effect instances using a `Dictionary`. 
-    *   Manages `attackLevel`, `defenseLevel`, `agilityLevel` for spec-up scaling.
-    *   `ApplySpecUp()` handles permanent stat modifiers and level progression.
+### 2. Item & Effect System (Refactored - ver 0.0.3)
+*   **Core Architecture**: Trigger-based event system using sequential `List<ItemEffect>`.
+*   **Trigger Consistency**: `PlayerStats` acts as a dispatcher, and `ItemEffect` acts as a receiver. Both must maintain 1:1 matching trigger methods.
+*   **Execution Order**: Effects are executed in the order of inventory acquisition. This allows earlier items to influence later items.
+*   **Context Objects**: 
+    *   `AttackContext`: Passes `target` and `damage` during attacks.
+    *   `DamageContext`: Passes `rawDamage` and `modifiedDamage` during hit events.
+    *   *Importance*: These classes allow multiple items to modify the same data (e.g., Item A multiplies damage by 2, then Item B adds 5 flat damage).
+*   **Trigger List**:
+    *   `OnEquip/OnUnequip`: Initialization and cleanup.
+    *   `OnAttack/OnTakeDamage`: Core combat logic with context modification.
+    *   `OnKillEnemy/OnHeal`: Reward or recovery-based triggers.
+    *   `OnUpdate`: Per-frame logic (cooldowns, pets).
+    *   `OnStageStart/OnStageClear`: Stage-wide events.
+*   **Optimization**: 
+    *   Simple stat changes are applied once via `Stat.AddModifier` (zero overhead during combat).
+    *   Complex logic runs only when triggers are invoked.
+*   **Extensibility**: To add a new item effect, simply inherit `ItemEffect` and override the specific trigger needed. No changes to `PlayerStats` are required.
 
 ### 3. UI System
 *   **`RewardUIManager.cs` (Enhanced)**: 

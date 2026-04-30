@@ -59,6 +59,7 @@ public class PlayerAttack : MonoBehaviour
         {
             arrow.damage = playerStats.damage.GetValue();
             arrow.range = playerStats.range.GetValue();
+            arrow.owner = playerStats; // 투사체의 소유자 설정
         }
     }
 }

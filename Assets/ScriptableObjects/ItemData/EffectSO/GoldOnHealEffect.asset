@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a4186325b994642a5d8873d287265d, type: 3}
-  m_Name: Effect_GoldOnHit
-  m_EditorClassIdentifier: Assembly-CSharp::Effect_GoldOnHit
+  m_Script: {fileID: 11500000, guid: 902d8f1fac70dea4bb8ad8908abe41c8, type: 3}
+  m_Name: GoldOnHealEffect
+  m_EditorClassIdentifier: Assembly-CSharp::GoldOnHealEffect
   effectDescription: 
-  hpToGoldRatio: 0.05
-  chance: 1
+  goldAmount: 1

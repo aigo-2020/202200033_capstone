@@ -23,6 +23,13 @@ public class ShopCard : MonoBehaviour
     void Awake()
     {
         cardButton = GetComponent<Button>();
+        // 코드에서 버튼 클릭 이벤트 직접 연결 (에디터 설정 누락 방지)
+        if (cardButton != null)
+        {
+            cardButton.onClick.RemoveAllListeners();
+            cardButton.onClick.AddListener(OnClick);
+        }
+        
         if (soldOutOverlay != null) soldOutOverlay.SetActive(false);
     }
 
@@ -42,7 +49,6 @@ public class ShopCard : MonoBehaviour
         {
             priceText.text = $"{item.price} G";
             
-            // 돈이 부족하면 텍스트 색상을 빨간색으로 변경하는 등 시각적 피드백 가능
             PlayerStats player = GameObject.FindWithTag("Player")?.GetComponent<PlayerStats>();
             if (player != null && player.money < item.price)
             {
@@ -60,31 +66,46 @@ public class ShopCard : MonoBehaviour
     /// </summary>
     public void OnClick()
     {
+        Debug.Log($"[ShopCard] {currentItem?.itemName} 카드 클릭됨");
+
         if (isSoldOut || currentItem == null) return;
 
-        PlayerStats player = GameObject.FindWithTag("Player")?.GetComponent<PlayerStats>();
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj == null)
+        {
+            Debug.LogError("[ShopCard] 'Player' 태그를 가진 오브젝트를 찾을 수 없습니다!");
+            return;
+        }
+
+        PlayerStats player = playerObj.GetComponent<PlayerStats>();
         if (player == null) return;
+
+        Debug.Log($"[ShopCard] 소지 골드: {player.money} / 필요 골드: {currentItem.price}");
 
         // 1. 돈이 충분한지 확인
         if (player.money >= currentItem.price)
         {
-            // 2. 돈 차감 및 아이템 추가
-            player.money -= currentItem.price;
+            // 2. 아이템 추가 시도
             bool success = PlayerInventory.Instance.AddItem(currentItem);
 
             if (success)
             {
-                Debug.Log($"{currentItem.itemName} 구매 완료! 남은 돈: {player.money}");
-                isSoldOut = true;
+                // 3. 구매 성공 시에만 돈 차감 및 상태 변경
+                player.money -= currentItem.price;
+                Debug.Log($"[ShopCard] {currentItem.itemName} 구매 완료! 남은 돈: {player.money}");
                 
+                isSoldOut = true;
                 if (cardButton != null) cardButton.interactable = false;
                 if (soldOutOverlay != null) soldOutOverlay.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("[ShopCard] 인벤토리가 가득 차서 아이템을 추가할 수 없습니다.");
             }
         }
         else
         {
-            Debug.Log("돈이 부족합니다!");
-            // TODO: UI 상에서 "돈 부족" 알림 연출 추가 가능
+            Debug.Log("[ShopCard] 돈이 부족합니다!");
         }
     }
 }

@@ -34,17 +34,25 @@ public class ItemData : ScriptableObject
     {
         List<ItemEffect> instances = new List<ItemEffect>();
 
-        if (specialEffects != null)
+        if (specialEffects == null || specialEffects.Count == 0)
         {
-            foreach (var effect in specialEffects)
+            Debug.LogWarning($"[ItemData] {itemName}: 적용할 특수 효과(specialEffects)가 리스트에 없습니다.");
+            return instances;
+        }
+
+        foreach (var effect in specialEffects)
+        {
+            if (effect != null)
             {
-                if (effect != null)
-                {
-                    // SO 에셋을 복제하여 개별 인스턴스로 만듦
-                    ItemEffect instance = Instantiate(effect);
-                    instance.OnEquip(player);
-                    instances.Add(instance);
-                }
+                // SO 에셋을 복제하여 개별 인스턴스로 만듦
+                ItemEffect instance = Instantiate(effect);
+                instance.OnEquip(player);
+                instances.Add(instance);
+                Debug.Log($"[ItemData] {itemName}: '{instance.GetType().Name}' 효과 인스턴스 생성 및 OnEquip 완료.");
+            }
+            else
+            {
+                Debug.LogError($"[ItemData] {itemName}: specialEffects 리스트에 null 항목이 포함되어 있습니다.");
             }
         }
 
