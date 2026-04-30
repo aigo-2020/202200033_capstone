@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ce637fbbd9adf4fb04d0fe399ba913, type: 3}
   m_Name: GoldBody
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: GoldBody
-  description: "\uB9DE\uC73C\uBA74 \uACE8\uB4DC\uB97C \uB5A8\uAD70\uB2E4"
-  icon: {fileID: 0}
-  price: 0
-  statChanges: []
+  itemName: "\uD761\uD608\uD654\uC0B4"
+  description: "\uACF5\uACA9 \uC801\uC911 \uC2DC \uCCB4\uB825 1 \uD68C\uBCF5"
+  icon: {fileID: 4202000044666515569, guid: b614d3edf1d6e514d8b0fd1285cc71be, type: 3}
+  price: 10
+  statChanges:
+  - statType: 1
+    value: 10
+    modifierType: 0
+  - statType: 0
+    value: 10
+    modifierType: 0
   specialEffects:
-  - {fileID: 11400000, guid: eae9b8394e7dc1f469329b27e51198fa, type: 2}
+  - {fileID: 11400000, guid: 4ef80fa35efd6964ab8f78a9829014fe, type: 2}

@@ -18,5 +18,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   price: 0
   statChanges: []
-  specialEffects:
-  - {fileID: 11400000, guid: 29fa3b3f98d4a4a48954a00739813fcd, type: 2}
+  specialEffects: []

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ce637fbbd9adf4fb04d0fe399ba913, type: 3}
   m_Name: Ironheart
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: IronHeart
-  description: "\uCD5C\uB300\uCCB4\uB825\uC758 10%\uB9CC\uD07C \uACF5\uACA9\uB825\uC744
-    \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4"
-  icon: {fileID: 0}
-  price: 0
-  statChanges: []
+  itemName: "\uAE08\uBE5B\uC2EC\uC7A5"
+  description: "\uCCB4\uB825 \uD68C\uBCF5 \uC2DC \uACE8\uB4DC 1 \uD68D\uB4DD"
+  icon: {fileID: -6810697999950630716, guid: b0ce04dd29975134cac477f4e0ac4a54, type: 3}
+  price: 20
+  statChanges:
+  - statType: 3
+    value: 0.5
+    modifierType: 0
   specialEffects:
-  - {fileID: 11400000, guid: 29fa3b3f98d4a4a48954a00739813fcd, type: 2}
+  - {fileID: 11400000, guid: 01b50a57241807e4baf200aa8d487775, type: 2}
